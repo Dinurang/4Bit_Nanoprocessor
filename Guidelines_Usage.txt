@@ -1,0 +1,83 @@
+Basic Nanoprocessor 
+-------------------
+
+The Executing Program is; 
+
+"101110000001", -- MOVI R7, 1    == Storing 1 in R7 ,     Therefore 7segment display shows 1.
+"100100000010", -- MOVI R2, 2    == Storing 2 in R2 ,     7segment display shows 1(still).
+"001110100000", -- ADD R7, R2    == ADD R2 and R7 values,store the resulting value in R7, 7segment display shows 3.     
+"100110000011", -- MOVI R3, 3    == Storing 3 in R3 ,     7segment display shows 3(still).      
+"001110110000", -- ADD R7, R3    == ADD R3 and R7 values,store the resulting value in R7, 7segment display shows 6.
+"110000000111", -- JZR R0, 7     == Jump to instruction 7 as R0 value is 0000. (This step loops infinitely until RESET is Clicked) 
+"110000000111", -- JZR R0, 7     ==
+"110000000111"  -- JZR R0, 7     ==
+
+
+
+Improved Nanoprocessor
+----------------------
+
+The Executing Program is;
+
+"0010011100000001", -- MOVI R7, 1      == Storing 1 in R7,  Therefore 7segment display shows 1.
+"0010000100000001", -- MOVI R1, 1      == Storing 1 in R1,  7segment display shows 1 still.  
+"0010011100000010", -- MOVI R7, 2      == Storing 2 in R7,  7segment display shows 2.
+"0000011100010000", -- ADD R7, R1      == ADD R1 and R7 values, store the resulting value in R7, 7segment display shows 3.
+"0010001000000011", -- MOVI R2, 3      == Storing 3 in R2,  7segment display shows 3 still.
+"0010011100000010", -- MOVI R7, 2      == Storing 2 in R7,  7segment display shows 2.
+"0100011100100000", -- MUL R7, R2      == MULTIPLY R2 and R7 values, store the resulting value in R7. 7segment display shows 6.
+"0010001100000110", -- MOVI R3, 6      == Storing 6 in R3,  7segment display shows 6 still.
+"0010011100000000", -- MOVI R7, 0000   == Storing 0000 in R7, 7segment display shows 0.
+"1001011100110000", -- XOR R7, R3      == XOR between values in R7(0000) and R3(0110).Store the Answer = 0110 = 6 in R7. 7segment display shows 6.
+"0010010100000000", -- MOVI R5,6       == Storing 6 in R5,  7segment display shows 6 still.
+"0010011100000011", -- MOVI R7,3       == Storing 3 in R7,  7segment display shows 3.
+"0101011101010000", -- COMP R7, R5     == COMPARE R5(0110) and R7(0011) . Since R5 > R7 => GREATER THAN bulb blinks.
+"0010011100000000", -- MOVI R7,0       == Storing 0000 in R7 to mark the end of operations. 7segment display shows 0.
+"0011000000001111", -- JUMP R0,15      == JUMP to instruction 15 as R0 value is 0000.(This step loops infinitely until RESET is Clicked)
+"0011000000001110"  -- JUMP R0  ,14
+      
+    
+Basys Board Physical Mappings
+-----------------------------
+
+
+=====================================================
+Basic Nanoprocessor:
+=====================================================
+FourLED[3]    FourLED[2]     FourLED[1]    FourLED[0]
+   V19           U19            E19           U16             
+
+
+zeroLED flag    P1
+Overflow flag   L1
+RESET           U18
+
+=====================================================
+
+
+
+
+=====================================================
+Improved Nanoprocessor:
+=====================================================
+FourLED[3]    FourLED[2]     FourLED[1]    FourLED[0]
+   V19           U19            E19           U16    
+
+
+zeroLED flag       P1
+RESET              U18
+
+OverflowLED_Mul    N3
+OverflowLED_Add    L1
+
+AlessB             W3
+AequalB            U3
+AgreaterB          P3
+
+=====================================================
+
+
+Note: 
+ZeroFlag and AequalB LED indicators remain ON during the execution of other operations.
+But during ADD and COMP operations, The Relevant correct behaviour(Whether LED keeps ON or LED turn OFF) will take place and then after, returns to ON state. 
+This could have been avoided with the Usage of High impedance buffer to these LED inputs, so that LEDs intentionally keps disconnected during unnecessary instances.
